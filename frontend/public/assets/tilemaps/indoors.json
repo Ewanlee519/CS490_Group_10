@@ -621,6 +621,28 @@
                  "width":1.33529176124966,
                  "x":3296.83535852584,
                  "y":1068.23340899987
+                }, 
+                {
+                 "height":96,
+                 "id":53,
+                 "name":"Notes Area",
+                 "rotation":0,
+                 "type":"NoteTakingArea",
+                 "visible":true,
+                 "width":160,
+                 "x":3520,
+                 "y":928
+                }, 
+                {
+                 "height":0,
+                 "id":54,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":3579,
+                 "y":1134
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -629,10 +651,10 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":52,
+ "nextobjectid":56,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.11.2",
  "tileheight":32,
  "tilesets":[
         {
