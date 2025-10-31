@@ -11,6 +11,7 @@ import TownsStore from './lib/TownsStore';
 import { ClientToServerEvents, ServerToClientEvents } from './types/CoveyTownSocket';
 import { TownsController } from './town/TownsController';
 import { logError } from './Utils';
+import notesRouter from './router/notes';
 
 // Create the server instances
 const app = Express();
@@ -31,6 +32,9 @@ socketServer.on('connection', socket => {
 
 // Set the default content-type to JSON
 app.use(Express.json());
+
+// Register the notes router at /notes
+app.use('/notes', notesRouter);
 
 // Add a /docs endpoint that will display swagger auto-generated documentation
 app.use('/docs', swaggerUi.serve, async (_req: Express.Request, res: Express.Response) => {
