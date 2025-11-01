@@ -1,9 +1,16 @@
+import NoteTakingAreaController, {
+  NoteTakingAreaEvents,
+} from '../../../classes/interactable/NoteTakingAreaController';
 import Interactable, { KnownInteractableTypes } from '../Interactable';
 
 export default class NoteTakingArea extends Interactable {
   private _labelText?: Phaser.GameObjects.Text;
 
   private _isInteracting = false;
+
+  private _noteTakingArea?: NoteTakingAreaController;
+
+  private _changeListener?: NoteTakingAreaEvents['notesChange'];
 
   getType(): KnownInteractableTypes {
     return 'noteTakingArea';
@@ -26,7 +33,20 @@ export default class NoteTakingArea extends Interactable {
       `Press space to take notes`,
       { color: '#FFFFFF', backgroundColor: '#000000' },
     );
-    this._labelText.setVisible(false);
+    this._noteTakingArea = this.townController.getNoteTakingAreaController(this);
+    //this._updateLabelText(this._noteTakingArea.notes);
+    this._changeListener = newNotes => this._updateLabelText(newNotes);
+    //this._noteTakingArea.addListener('notesChange', this._changeListener);
+  }
+
+  private _updateLabelText(newNotes: string) {
+    this._labelText?.setText(newNotes);
+  }
+
+  removedFromScene(): void {
+    if (this._changeListener) {
+      this._noteTakingArea?.removeListener('notesChange', this._changeListener);
+    }
   }
 
   interact(): void {

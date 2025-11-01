@@ -20,6 +20,9 @@ import NoteTakingAreaInteractable from './NoteTakingArea';
 /**
  * NotesBoard component - A text editor using Tiptap for note-taking
  */
+
+let word = '';
+
 function NotesBoard({
   noteTakingArea,
   onExport,
@@ -33,17 +36,28 @@ function NotesBoard({
     extensions: [StarterKit],
     content: noteTakingArea.notes || '',
     immediatelyRender: false,
+    onDestroy: () => {
+      // Save notes back to the model when editor is destroyed
+      if (editor) {
+        word = editor.getHTML();
+      }
+      console.log('Editor destroyed, notes saved!');
+      console.log(noteTakingArea);
+      console.log(noteTakingArea.notes);
+    },
   });
 
   // Update editor content when notes change externally
   useEffect(() => {
     if (editor && noteTakingArea.notes !== undefined) {
-      const currentContent = editor.getHTML();
+      console.log('updating editor content from notes:');
+      console.log(noteTakingArea);
+      const currentContent = word;
       if (currentContent !== noteTakingArea.notes) {
         editor.commands.setContent(noteTakingArea.notes || '');
       }
     }
-  }, [editor, noteTakingArea.notes]);
+  }, [editor, noteTakingArea]);
 
   // Expose editor to parent for export
   useEffect(() => {
@@ -89,7 +103,7 @@ export default function NotesBoardWrapper(): JSX.Element {
       const placeholderModel: NoteTakingArea = {
         id: noteTakingAreaInteractable.id,
         type: 'NoteTakingArea' as const,
-        notes: '', // Will be populated when backend sends NoteTakingArea data
+        notes: word, // Will be populated when backend sends NoteTakingArea data
         occupants: [],
       };
       setNoteTakingAreaModel(placeholderModel);
