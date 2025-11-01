@@ -12,8 +12,11 @@ export default class NoteTakingArea extends Interactable {
 
   private _changeListener?: NoteTakingAreaEvents['notesChange'];
 
+<<<<<<< HEAD
   private _notes = '';
 
+=======
+>>>>>>> 581de96 (almost done implemented the controller)
   getType(): KnownInteractableTypes {
     return 'noteTakingArea';
   }
@@ -49,7 +52,13 @@ export default class NoteTakingArea extends Interactable {
       { color: '#FFFFFF', backgroundColor: '#000000' },
     );
     this._noteTakingArea = this.townController.getNoteTakingAreaController(this);
+<<<<<<< HEAD
     this._changeListener = newNotes => this._updateLabelText(newNotes);
+=======
+    //this._updateLabelText(this._noteTakingArea.notes);
+    this._changeListener = newNotes => this._updateLabelText(newNotes);
+    //this._noteTakingArea.addListener('notesChange', this._changeListener);
+>>>>>>> 581de96 (almost done implemented the controller)
   }
 
   private _updateLabelText(newNotes: string) {

@@ -709,6 +709,17 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
     }
   }
 
+  public getNoteTakingAreaController(noteTakingArea: NoteTakingArea): NoteTakingAreaController {
+    const existingController = this._interactableControllers.find(
+      eachExistingArea => eachExistingArea.id === noteTakingArea.name,
+    );
+    if (existingController instanceof NoteTakingAreaController) {
+      return existingController;
+    } else {
+      //throw new Error(`No such note lol taking area controller ${existingController}`);
+    }
+  }
+
   /**
    * Retrives the game area controller corresponding to a game area by ID, or
    * throws an error if the game area controller does not exist

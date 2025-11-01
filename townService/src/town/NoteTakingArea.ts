@@ -7,11 +7,15 @@ import {
   InteractableCommand,
   InteractableCommandReturnType,
   TownEmitter,
+<<<<<<< HEAD
   NoteTakingAreaUpdateCommand,
+=======
+>>>>>>> 581de96 (almost done implemented the controller)
 } from '../types/CoveyTownSocket';
 import InteractableArea from './InteractableArea';
 
 export default class NoteTakingArea extends InteractableArea {
+<<<<<<< HEAD
   public handleCommand<CommandType extends InteractableCommand>(
     command: CommandType,
   ): InteractableCommandReturnType<CommandType> {
@@ -26,6 +30,16 @@ export default class NoteTakingArea extends InteractableArea {
 
   /* The notes in the note-taking area */
   public notes?: string;
+=======
+  public handleCommand<
+    CommandType extends InteractableCommand,
+  >(): InteractableCommandReturnType<CommandType> {
+    throw new Error('Unknown command type');
+  }
+
+  /* The notes in the note-taking area */
+  public notes: string;
+>>>>>>> 581de96 (almost done implemented the controller)
 
   /** The note-taking area is "active" when there are players inside of it  */
   public get isActive(): boolean {
@@ -71,6 +85,7 @@ export default class NoteTakingArea extends InteractableArea {
     const rect: BoundingBox = { x: mapObject.x, y: mapObject.y, width, height };
     return new NoteTakingArea({ id: name, occupants: [], notes: '' }, rect, broadcastEmitter);
   }
+<<<<<<< HEAD
 
   public remove(player: Player) {
     super.remove(player);
@@ -79,4 +94,6 @@ export default class NoteTakingArea extends InteractableArea {
       this._emitAreaChanged();
     }
   }
+=======
+>>>>>>> 581de96 (almost done implemented the controller)
 }

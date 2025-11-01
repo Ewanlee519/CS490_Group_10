@@ -25,6 +25,9 @@ import { debounce } from 'lodash';
 /**
  * NotesBoard component - A text editor using Tiptap for note-taking
  */
+
+let word = '';
+
 function NotesBoard({
   noteTakingAreaController,
   onExport,
@@ -48,6 +51,7 @@ function NotesBoard({
     content: currentNotes,
     immediatelyRender: false,
     onDestroy: () => {
+<<<<<<< HEAD
       // Save notes back to the backend when editor is destroyed
       if (editor) {
         noteTakingAreaController.updateNotes(editor.getHTML());
@@ -57,11 +61,21 @@ function NotesBoard({
     onUpdate: ({ editor: updatedEditor }) => {
       const notes = updatedEditor.getHTML();
       debouncedSaveNotes(notes);
+=======
+      // Save notes back to the model when editor is destroyed
+      if (editor) {
+        word = editor.getHTML();
+      }
+      console.log('Editor destroyed, notes saved!');
+      console.log(noteTakingArea);
+      console.log(noteTakingArea.notes);
+>>>>>>> 581de96 (almost done implemented the controller)
     },
   });
 
   // Update editor content when notes change externally
   useEffect(() => {
+<<<<<<< HEAD
     if (editor && currentNotes !== undefined) {
       console.log('updating editor content from notes:');
       console.log(currentNotes);
@@ -70,6 +84,17 @@ function NotesBoard({
       }
     }
   }, [editor, currentNotes]);
+=======
+    if (editor && noteTakingArea.notes !== undefined) {
+      console.log('updating editor content from notes:');
+      console.log(noteTakingArea);
+      const currentContent = word;
+      if (currentContent !== noteTakingArea.notes) {
+        editor.commands.setContent(noteTakingArea.notes || '');
+      }
+    }
+  }, [editor, noteTakingArea]);
+>>>>>>> 581de96 (almost done implemented the controller)
 
   // Expose editor to parent for export
   useEffect(() => {
@@ -112,6 +137,7 @@ export default function NotesBoardWrapper(): JSX.Element {
     if (noteTakingAreaInteractable) {
       // For now, create a placeholder model since NoteTakingArea might not have a controller yet
       // This can be enhanced later when full backend integration is complete
+<<<<<<< HEAD
       // const placeholderModel: NoteTakingArea = {
       //   id: noteTakingAreaInteractable.id,
       //   type: 'NoteTakingArea',
@@ -119,6 +145,15 @@ export default function NotesBoardWrapper(): JSX.Element {
       //   occupants: [],
       // };
       // setNoteTakingAreaModel(placeholderModel);
+=======
+      const placeholderModel: NoteTakingArea = {
+        id: noteTakingAreaInteractable.id,
+        type: 'NoteTakingArea' as const,
+        notes: word, // Will be populated when backend sends NoteTakingArea data
+        occupants: [],
+      };
+      setNoteTakingAreaModel(placeholderModel);
+>>>>>>> 581de96 (almost done implemented the controller)
       townController.pause();
     } else {
       //setNoteTakingAreaModel(undefined);
