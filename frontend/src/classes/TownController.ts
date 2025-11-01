@@ -10,6 +10,7 @@ import Interactable from '../components/Town/Interactable';
 import ConversationArea from '../components/Town/interactables/ConversationArea';
 import GameArea from '../components/Town/interactables/GameArea';
 import ViewingArea from '../components/Town/interactables/ViewingArea';
+import NoteTakingArea from '../components/Town/interactables/NoteTakingArea';
 import { LoginController } from '../contexts/LoginControllerContext';
 import { TownsService, TownsServiceClient } from '../generated/client';
 import useTownController from '../hooks/useTownController';
@@ -43,6 +44,7 @@ import InteractableAreaController, {
 import TicTacToeAreaController from './interactable/TicTacToeAreaController';
 import ViewingAreaController from './interactable/ViewingAreaController';
 import PlayerController from './PlayerController';
+import NoteTakingAreaController from './interactable/NoteTakingAreaController';
 
 const CALCULATE_NEARBY_PLAYERS_DELAY_MS = 300;
 const SOCKET_COMMAND_TIMEOUT_MS = 5000;
@@ -671,6 +673,17 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
       return existingController;
     } else {
       throw new Error(`No such viewing area controller ${existingController}`);
+    }
+  }
+
+  public getNoteTakingAreaController(noteTakingArea: NoteTakingArea): NoteTakingAreaController {
+    const existingController = this._interactableControllers.find(
+      eachExistingArea => eachExistingArea.id === noteTakingArea.name,
+    );
+    if (existingController instanceof NoteTakingAreaController) {
+      return existingController;
+    } else {
+      //throw new Error(`No such note lol taking area controller ${existingController}`);
     }
   }
 
