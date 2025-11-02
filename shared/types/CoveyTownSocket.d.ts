@@ -75,7 +75,7 @@ export interface ViewingArea extends Interactable {
 }
 
 export interface NoteTakingArea extends Interactable {
-  notes: string;
+  notes?: string;
 }
 
 export type GameStatus = 'IN_PROGRESS' | 'WAITING_TO_START' | 'OVER' | 'WAITING_FOR_PLAYERS';
