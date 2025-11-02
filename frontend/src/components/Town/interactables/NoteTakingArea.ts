@@ -34,9 +34,7 @@ export default class NoteTakingArea extends Interactable {
       { color: '#FFFFFF', backgroundColor: '#000000' },
     );
     this._noteTakingArea = this.townController.getNoteTakingAreaController(this);
-    //this._updateLabelText(this._noteTakingArea.notes);
     this._changeListener = newNotes => this._updateLabelText(newNotes);
-    //this._noteTakingArea.addListener('notesChange', this._changeListener);
   }
 
   private _updateLabelText(newNotes: string) {

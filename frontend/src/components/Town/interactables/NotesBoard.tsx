@@ -21,8 +21,6 @@ import NoteTakingAreaInteractable from './NoteTakingArea';
  * NotesBoard component - A text editor using Tiptap for note-taking
  */
 
-let word = '';
-
 function NotesBoard({
   noteTakingArea,
   onExport,
@@ -39,7 +37,7 @@ function NotesBoard({
     onDestroy: () => {
       // Save notes back to the model when editor is destroyed
       if (editor) {
-        word = editor.getHTML();
+        noteTakingArea.notes = editor.getHTML();
       }
       console.log('Editor destroyed, notes saved!');
       console.log(noteTakingArea);
@@ -51,8 +49,9 @@ function NotesBoard({
   useEffect(() => {
     if (editor && noteTakingArea.notes !== undefined) {
       console.log('updating editor content from notes:');
+      noteTakingArea.notes = editor.getHTML();
       console.log(noteTakingArea);
-      const currentContent = word;
+      const currentContent = noteTakingArea.notes || '';
       if (currentContent !== noteTakingArea.notes) {
         editor.commands.setContent(noteTakingArea.notes || '');
       }
@@ -71,16 +70,15 @@ function NotesBoard({
   }, [editor]);
 
   return (
-    <Box width="100%" height="100%">
+    <Box width='100%' height='100%'>
       <Box
-        border="1px"
-        borderColor="gray.300"
-        borderRadius="md"
+        border='1px'
+        borderColor='gray.300'
+        borderRadius='md'
         p={4}
-        minHeight="400px"
+        minHeight='400px'
         mb={4}
-        bg="white"
-      >
+        bg='white'>
         <EditorContent editor={editor} />
       </Box>
     </Box>
@@ -103,7 +101,7 @@ export default function NotesBoardWrapper(): JSX.Element {
       const placeholderModel: NoteTakingArea = {
         id: noteTakingAreaInteractable.id,
         type: 'NoteTakingArea' as const,
-        notes: word, // Will be populated when backend sends NoteTakingArea data
+        notes: noteTakingAreaInteractable.notes || '', // Will be populated when backend sends NoteTakingArea data
         occupants: [],
       };
       setNoteTakingAreaModel(placeholderModel);
