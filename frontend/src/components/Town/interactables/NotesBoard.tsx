@@ -26,8 +26,6 @@ import { debounce } from 'lodash';
  * NotesBoard component - A text editor using Tiptap for note-taking
  */
 
-let word = '';
-
 function NotesBoard({
   noteTakingAreaController,
   onExport,
@@ -64,7 +62,7 @@ function NotesBoard({
 =======
       // Save notes back to the model when editor is destroyed
       if (editor) {
-        word = editor.getHTML();
+        noteTakingArea.notes = editor.getHTML();
       }
       console.log('Editor destroyed, notes saved!');
       console.log(noteTakingArea);
@@ -87,8 +85,9 @@ function NotesBoard({
 =======
     if (editor && noteTakingArea.notes !== undefined) {
       console.log('updating editor content from notes:');
+      noteTakingArea.notes = editor.getHTML();
       console.log(noteTakingArea);
-      const currentContent = word;
+      const currentContent = noteTakingArea.notes || '';
       if (currentContent !== noteTakingArea.notes) {
         editor.commands.setContent(noteTakingArea.notes || '');
       }
@@ -149,7 +148,7 @@ export default function NotesBoardWrapper(): JSX.Element {
       const placeholderModel: NoteTakingArea = {
         id: noteTakingAreaInteractable.id,
         type: 'NoteTakingArea' as const,
-        notes: word, // Will be populated when backend sends NoteTakingArea data
+        notes: noteTakingAreaInteractable.notes || '', // Will be populated when backend sends NoteTakingArea data
         occupants: [],
       };
       setNoteTakingAreaModel(placeholderModel);

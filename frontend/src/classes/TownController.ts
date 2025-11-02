@@ -639,7 +639,10 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
             this._interactableControllers.push(
               NoteTakingAreaController.fromNoteTakingAreaModel(
                 eachInteractable,
+<<<<<<< HEAD
                 this,
+=======
+>>>>>>> 9cb2c58 (area controller done i think)
                 this._playersByIDs.bind(this),
               ),
             );
@@ -693,6 +696,7 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
       return existingController;
     } else {
       throw new Error(`No such viewing area controller ${existingController} `);
+<<<<<<< HEAD
     }
   }
 
@@ -706,6 +710,8 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
       throw new Error(
         `No such note taking area controller ${existingController} ${existingController?.id} is not ${noteTakingArea.name}`,
       );
+=======
+>>>>>>> 9cb2c58 (area controller done i think)
     }
   }
 
@@ -716,7 +722,9 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
     if (existingController instanceof NoteTakingAreaController) {
       return existingController;
     } else {
-      //throw new Error(`No such note lol taking area controller ${existingController}`);
+      throw new Error(
+        `No such note taking area controller ${existingController} ${existingController?.id} is not ${noteTakingArea.name}`,
+      );
     }
   }
 

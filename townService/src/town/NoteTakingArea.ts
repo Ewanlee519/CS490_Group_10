@@ -38,8 +38,12 @@ export default class NoteTakingArea extends InteractableArea {
   }
 
   /* The notes in the note-taking area */
+<<<<<<< HEAD
   public notes: string;
 >>>>>>> 581de96 (almost done implemented the controller)
+=======
+  public notes?: string;
+>>>>>>> 9cb2c58 (area controller done i think)
 
   /** The note-taking area is "active" when there are players inside of it  */
   public get isActive(): boolean {

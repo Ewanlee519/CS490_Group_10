@@ -53,12 +53,16 @@ export default class NoteTakingArea extends Interactable {
     );
     this._noteTakingArea = this.townController.getNoteTakingAreaController(this);
 <<<<<<< HEAD
+<<<<<<< HEAD
     this._changeListener = newNotes => this._updateLabelText(newNotes);
 =======
     //this._updateLabelText(this._noteTakingArea.notes);
     this._changeListener = newNotes => this._updateLabelText(newNotes);
     //this._noteTakingArea.addListener('notesChange', this._changeListener);
 >>>>>>> 581de96 (almost done implemented the controller)
+=======
+    this._changeListener = newNotes => this._updateLabelText(newNotes);
+>>>>>>> 9cb2c58 (area controller done i think)
   }
 
   private _updateLabelText(newNotes: string) {
