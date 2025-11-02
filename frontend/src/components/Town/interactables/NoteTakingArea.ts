@@ -13,10 +13,15 @@ export default class NoteTakingArea extends Interactable {
   private _changeListener?: NoteTakingAreaEvents['notesChange'];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   private _notes = '';
 
 =======
 >>>>>>> 581de96 (almost done implemented the controller)
+=======
+  private _notes = '';
+
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
   getType(): KnownInteractableTypes {
     return 'noteTakingArea';
   }
@@ -30,10 +35,13 @@ export default class NoteTakingArea extends Interactable {
     this._noteTakingArea?.emit('notesChange', newNotes);
   }
 
+<<<<<<< HEAD
   get controller(): NoteTakingAreaController | undefined {
     return this._noteTakingArea;
   }
 
+=======
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
   addedToScene() {
     super.addedToScene();
     this.setTintFill();

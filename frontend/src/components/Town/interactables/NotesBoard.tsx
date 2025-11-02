@@ -25,7 +25,7 @@ import { debounce } from 'lodash';
 /**
  * NotesBoard component - A text editor using Tiptap for note-taking
  */
-
+let word = '';
 function NotesBoard({
   noteTakingAreaController,
   onExport,
@@ -46,7 +46,11 @@ function NotesBoard({
 
   const editor = useEditor({
     extensions: [StarterKit],
+<<<<<<< HEAD
     content: currentNotes,
+=======
+    content: noteTakingArea.notes,
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
     immediatelyRender: false,
     onDestroy: () => {
 <<<<<<< HEAD
@@ -62,12 +66,15 @@ function NotesBoard({
 =======
       // Save notes back to the model when editor is destroyed
       if (editor) {
-        noteTakingArea.notes = editor.getHTML();
+        word = editor.getHTML();
       }
       console.log('Editor destroyed, notes saved!');
       console.log(noteTakingArea);
+<<<<<<< HEAD
       console.log(noteTakingArea.notes);
 >>>>>>> 581de96 (almost done implemented the controller)
+=======
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
     },
   });
 
@@ -85,11 +92,10 @@ function NotesBoard({
 =======
     if (editor && noteTakingArea.notes !== undefined) {
       console.log('updating editor content from notes:');
-      noteTakingArea.notes = editor.getHTML();
       console.log(noteTakingArea);
-      const currentContent = noteTakingArea.notes || '';
+      const currentContent = noteTakingArea.notes;
       if (currentContent !== noteTakingArea.notes) {
-        editor.commands.setContent(noteTakingArea.notes || '');
+        editor.commands.setContent(noteTakingArea.notes);
       }
     }
   }, [editor, noteTakingArea]);
@@ -128,9 +134,13 @@ function NotesBoard({
 export default function NotesBoardWrapper(): JSX.Element {
   const noteTakingAreaInteractable = useInteractable<NoteTakingAreaInteractable>('noteTakingArea');
   const townController = useTownController();
+<<<<<<< HEAD
   const isOpen = noteTakingAreaInteractable !== undefined;
   const noteTakingAreaController = noteTakingAreaInteractable?.controller;
 
+=======
+  const [noteTakingAreaModel, setNoteTakingAreaModel] = useState<NoteTakingArea>();
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
   // Create placeholder model from the interactable
   useEffect(() => {
     if (noteTakingAreaInteractable) {
@@ -147,8 +157,8 @@ export default function NotesBoardWrapper(): JSX.Element {
 =======
       const placeholderModel: NoteTakingArea = {
         id: noteTakingAreaInteractable.id,
-        type: 'NoteTakingArea' as const,
-        notes: noteTakingAreaInteractable.notes || '', // Will be populated when backend sends NoteTakingArea data
+        type: 'NoteTakingArea',
+        notes: word, // Will be populated when backend sends NoteTakingArea data
         occupants: [],
       };
       setNoteTakingAreaModel(placeholderModel);

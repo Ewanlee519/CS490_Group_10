@@ -581,9 +581,15 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
     await this._townsService.createConversationArea(this.townID, this.sessionToken, newArea);
   }
 
+<<<<<<< HEAD
   async createNoteTakingArea(newArea: { id: string; occupants: Array<string> }) {
     await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
   }
+=======
+  // async createNoteTakingArea(newArea: { id: string; occupants: Array<string> }) {
+  //   await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
+  // }
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
 
   /**
    * Create a new viewing area, sending the request to the townService. Throws an error if the request

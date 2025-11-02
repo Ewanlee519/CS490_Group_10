@@ -34,7 +34,7 @@ export default class NoteTakingArea extends InteractableArea {
   public handleCommand<
     CommandType extends InteractableCommand,
   >(): InteractableCommandReturnType<CommandType> {
-    throw new Error('Unknown command type');
+    throw new InvalidParametersError('Unknown command type');
   }
 
   /* The notes in the note-taking area */
@@ -90,6 +90,9 @@ export default class NoteTakingArea extends InteractableArea {
     return new NoteTakingArea({ id: name, occupants: [], notes: '' }, rect, broadcastEmitter);
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
 
   public remove(player: Player) {
     super.remove(player);
@@ -98,6 +101,9 @@ export default class NoteTakingArea extends InteractableArea {
       this._emitAreaChanged();
     }
   }
+<<<<<<< HEAD
 =======
 >>>>>>> 581de96 (almost done implemented the controller)
+=======
+>>>>>>> 28b737f (got the omit files to auto generate using prestart)
 }
