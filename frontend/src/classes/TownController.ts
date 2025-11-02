@@ -33,6 +33,7 @@ import {
   isConversationArea,
   isTicTacToeArea,
   isViewingArea,
+  isNoteTakingArea,
 } from '../types/TypeUtils';
 import ConnectFourAreaController from './interactable/ConnectFourAreaController';
 import ConversationAreaController from './interactable/ConversationAreaController';
@@ -321,6 +322,13 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
       eachInteractable => eachInteractable instanceof ConversationAreaController,
     );
     return ret as ConversationAreaController[];
+  }
+
+  public get noteTakingAreas(): NoteTakingAreaController[] {
+    const ret = this._interactableControllers.filter(
+      eachInteractable => eachInteractable instanceof NoteTakingAreaController,
+    );
+    return ret as NoteTakingAreaController[];
   }
 
   public get interactableEmitter() {
@@ -623,6 +631,13 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
                 this._playersByIDs.bind(this),
               ),
             );
+          } else if (isNoteTakingArea(eachInteractable)) {
+            this._interactableControllers.push(
+              NoteTakingAreaController.fromNoteTakingAreaModel(
+                eachInteractable,
+                this._playersByIDs.bind(this),
+              ),
+            );
           } else if (isViewingArea(eachInteractable)) {
             this._interactableControllers.push(new ViewingAreaController(eachInteractable));
           } else if (isTicTacToeArea(eachInteractable)) {
@@ -672,7 +687,7 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
     if (existingController instanceof ConversationAreaController) {
       return existingController;
     } else {
-      throw new Error(`No such viewing area controller ${existingController}`);
+      throw new Error(`No such viewing area controller ${existingController} `);
     }
   }
 
@@ -683,7 +698,9 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
     if (existingController instanceof NoteTakingAreaController) {
       return existingController;
     } else {
-      //throw new Error(`No such note lol taking area controller ${existingController}`);
+      throw new Error(
+        `No such note taking area controller ${existingController} ${existingController?.id} is not ${noteTakingArea.name}`,
+      );
     }
   }
 
@@ -829,6 +846,24 @@ export function useActiveConversationAreas(): ConversationAreaController[] {
   return conversationAreas;
 }
 
+export function useNoteTakingAreas(): NoteTakingAreaController[] {
+  const townController = useTownController();
+  const [noteTakingAreas, setNoteTakingAreas] = useState<NoteTakingAreaController[]>(
+    townController.noteTakingAreas,
+  );
+  useEffect(() => {
+    const updater = () => {
+      const allAreas = townController.noteTakingAreas;
+      setNoteTakingAreas(allAreas);
+    };
+    townController.addListener('interactableAreasChanged', updater);
+    return () => {
+      townController.removeListener('interactableAreasChanged', updater);
+    };
+  }, [townController, setNoteTakingAreas]);
+  return noteTakingAreas;
+}
+
 /**
  * A react hook to retrieve the active interactable areas. This hook will re-render any components
  * that use it when the set of interactable areas changes. It does *not* re-render its dependent components
@@ -843,7 +878,11 @@ export function useActiveInteractableAreas(): GenericInteractableAreaController[
   const townController = useTownController();
   const [interactableAreas, setInteractableAreas] = useState<GenericInteractableAreaController[]>(
     (townController.gameAreas as GenericInteractableAreaController[])
-      .concat(townController.conversationAreas, townController.viewingAreas)
+      .concat(
+        townController.conversationAreas,
+        townController.viewingAreas,
+        townController.noteTakingAreas,
+      )
       .filter(eachArea => eachArea.isActive()),
   );
   useEffect(() => {
@@ -851,6 +890,7 @@ export function useActiveInteractableAreas(): GenericInteractableAreaController[
       const allAreas = (townController.gameAreas as GenericInteractableAreaController[]).concat(
         townController.conversationAreas,
         townController.viewingAreas,
+        townController.noteTakingAreas,
       );
       setInteractableAreas(allAreas.filter(eachArea => eachArea.isActive()));
     };
@@ -882,7 +922,11 @@ export function useActiveInteractableAreasSortedByOccupancyAndName(): GenericInt
 
   const [interactableAreas, setInteractableAreas] = useState<InteractableAreaReadAheadOccupancy[]>(
     (townController.gameAreas as GenericInteractableAreaController[])
-      .concat(townController.conversationAreas, townController.viewingAreas)
+      .concat(
+        townController.conversationAreas,
+        townController.viewingAreas,
+        townController.noteTakingAreas,
+      )
       .filter(eachArea => eachArea.isActive())
       .map(area => ({ area, occupancy: area.occupants.length })),
   );
@@ -904,6 +948,7 @@ export function useActiveInteractableAreasSortedByOccupancyAndName(): GenericInt
       const allAreas = (townController.gameAreas as GenericInteractableAreaController[]).concat(
         townController.conversationAreas,
         townController.viewingAreas,
+        townController.noteTakingAreas,
       );
       const activeAreas = allAreas.filter(eachArea => eachArea.isActive());
       // Update the areas, *and* the occupancy listeners by comparing the new set of areas to the old set

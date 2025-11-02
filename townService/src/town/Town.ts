@@ -17,9 +17,11 @@ import {
   ServerToClientEvents,
   SocketData,
   ViewingArea as ViewingAreaModel,
+  NoteTakingArea as NoteTakingAreaModel,
 } from '../types/CoveyTownSocket';
 import { logError } from '../Utils';
 import ConversationArea from './ConversationArea';
+import NoteTakingArea from './NoteTakingArea';
 import GameAreaFactory from './games/GameAreaFactory';
 import InteractableArea from './InteractableArea';
 import ViewingArea from './ViewingArea';
@@ -311,6 +313,19 @@ export default class Town {
     return true;
   }
 
+  public addNoteTakingArea(noteTakingArea: NoteTakingAreaModel): boolean {
+    const area = this._interactables.find(
+      eachArea => eachArea.id === noteTakingArea.id,
+    ) as NoteTakingArea;
+    if (!area || !noteTakingArea.notes || area.notes) {
+      return false;
+    }
+    area.notes = noteTakingArea.notes;
+    area.addPlayersWithinBounds(this._players);
+    this._broadcastEmitter.emit('interactableUpdate', area.toModel());
+    return true;
+  }
+
   /**
    * Creates a new viewing area in this town if there is not currently an active
    * viewing area with the same ID. The viewing area ID must match the name of a
@@ -418,6 +433,12 @@ export default class Town {
         ConversationArea.fromMapObject(eachConvAreaObj, this._broadcastEmitter),
       );
 
+    const noteTakingAreas = objectLayer.objects
+      .filter(eachObject => eachObject.type === 'NoteTakingArea')
+      .map(eachNoteTakingAreaObj =>
+        NoteTakingArea.fromMapObject(eachNoteTakingAreaObj, this._broadcastEmitter),
+      );
+
     const gameAreas = objectLayer.objects
       .filter(eachObject => eachObject.type === 'GameArea')
       .map(eachGameAreaObj => GameAreaFactory(eachGameAreaObj, this._broadcastEmitter));
@@ -425,7 +446,8 @@ export default class Town {
     this._interactables = this._interactables
       .concat(viewingAreas)
       .concat(conversationAreas)
-      .concat(gameAreas);
+      .concat(gameAreas)
+      .concat(noteTakingAreas);
     this._validateInteractables();
   }
 
