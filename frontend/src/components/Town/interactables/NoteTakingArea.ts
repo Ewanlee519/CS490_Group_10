@@ -12,8 +12,19 @@ export default class NoteTakingArea extends Interactable {
 
   private _changeListener?: NoteTakingAreaEvents['notesChange'];
 
+  private _notes = '';
+
   getType(): KnownInteractableTypes {
     return 'noteTakingArea';
+  }
+
+  get notes(): string {
+    return this._notes;
+  }
+
+  set notes(newNotes: string) {
+    this._notes = newNotes;
+    this._noteTakingArea?.emit('notesChange', newNotes);
   }
 
   addedToScene() {

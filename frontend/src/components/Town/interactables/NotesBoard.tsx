@@ -20,7 +20,7 @@ import NoteTakingAreaInteractable from './NoteTakingArea';
 /**
  * NotesBoard component - A text editor using Tiptap for note-taking
  */
-
+let word = '';
 function NotesBoard({
   noteTakingArea,
   onExport,
@@ -32,16 +32,15 @@ function NotesBoard({
 }): JSX.Element {
   const editor = useEditor({
     extensions: [StarterKit],
-    content: noteTakingArea.notes || '',
+    content: noteTakingArea.notes,
     immediatelyRender: false,
     onDestroy: () => {
       // Save notes back to the model when editor is destroyed
       if (editor) {
-        noteTakingArea.notes = editor.getHTML();
+        word = editor.getHTML();
       }
       console.log('Editor destroyed, notes saved!');
       console.log(noteTakingArea);
-      console.log(noteTakingArea.notes);
     },
   });
 
@@ -49,11 +48,10 @@ function NotesBoard({
   useEffect(() => {
     if (editor && noteTakingArea.notes !== undefined) {
       console.log('updating editor content from notes:');
-      noteTakingArea.notes = editor.getHTML();
       console.log(noteTakingArea);
-      const currentContent = noteTakingArea.notes || '';
+      const currentContent = noteTakingArea.notes;
       if (currentContent !== noteTakingArea.notes) {
-        editor.commands.setContent(noteTakingArea.notes || '');
+        editor.commands.setContent(noteTakingArea.notes);
       }
     }
   }, [editor, noteTakingArea]);
@@ -91,8 +89,7 @@ function NotesBoard({
 export default function NotesBoardWrapper(): JSX.Element {
   const noteTakingAreaInteractable = useInteractable<NoteTakingAreaInteractable>('noteTakingArea');
   const townController = useTownController();
-  const [noteTakingAreaModel, setNoteTakingAreaModel] = useState<NoteTakingArea | undefined>(undefined);
-
+  const [noteTakingAreaModel, setNoteTakingAreaModel] = useState<NoteTakingArea>();
   // Create placeholder model from the interactable
   useEffect(() => {
     if (noteTakingAreaInteractable) {
@@ -100,8 +97,8 @@ export default function NotesBoardWrapper(): JSX.Element {
       // This can be enhanced later when full backend integration is complete
       const placeholderModel: NoteTakingArea = {
         id: noteTakingAreaInteractable.id,
-        type: 'NoteTakingArea' as const,
-        notes: noteTakingAreaInteractable.notes || '', // Will be populated when backend sends NoteTakingArea data
+        type: 'NoteTakingArea',
+        notes: word, // Will be populated when backend sends NoteTakingArea data
         occupants: [],
       };
       setNoteTakingAreaModel(placeholderModel);
