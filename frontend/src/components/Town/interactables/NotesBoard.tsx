@@ -55,13 +55,25 @@ function NotesBoard({
     content: noteTakingArea.notes,
 >>>>>>> 28b737f (got the omit files to auto generate using prestart)
     immediatelyRender: false,
+<<<<<<< HEAD
     onDestroy: () => {
 <<<<<<< HEAD
       // Save notes back to the backend when editor is destroyed
+=======
+    // onDestroy: () => {
+    //   // Save notes back to the backend when editor is destroyed
+    //   if (editor) {
+    //     noteTakingAreaController.updateNotes(editor.getHTML());
+    //   }
+    //   console.log('Editor destroyed, notes saved to backend!');
+    // },
+    onUpdate: () => {
+      // Save notes back to the backend on every update
+>>>>>>> 6110536 (made it so users can see the changes of the notes in real time)
       if (editor) {
         noteTakingAreaController.updateNotes(editor.getHTML());
       }
-      console.log('Editor destroyed, notes saved to backend!');
+      console.log('Editor updated, notes saved to backend!');
     },
     onUpdate: ({ editor: updatedEditor }) => {
       const notes = updatedEditor.getHTML();
