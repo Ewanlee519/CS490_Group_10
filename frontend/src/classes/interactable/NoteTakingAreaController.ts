@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { NoteTakingArea } from '../../types/CoveyTownSocket';
+import TownController from '../TownController';
+import { NoteTakingArea, NoteTakingAreaUpdateCommand } from '../../types/CoveyTownSocket';
 import PlayerController from '../PlayerController';
 import InteractableAreaController, {
   BaseInteractableEventMap,
@@ -27,17 +28,17 @@ export default class NoteTakingAreaController extends InteractableAreaController
     return {
       id: this.id,
       occupants: this.occupants.map(player => player.id),
-      notes: this._notes,
+      notes: this._notes.length > 0 ? this._notes : undefined,
       type: 'NoteTakingArea',
     };
   }
 
   protected _updateFrom(newModel: NoteTakingArea): void {
-    this._notes = newModel.notes;
+    this._setNotes(newModel.notes);
   }
 
   public isActive(): boolean {
-    return this.notes.length > 0 && this.occupants.length > 0;
+    return this.occupants.length > 0;
   }
 
   public get friendlyName(): string {
@@ -55,15 +56,18 @@ export default class NoteTakingAreaController extends InteractableAreaController
    * @param id
    * @param notes
    */
-  constructor(id: string, notes: string) {
-    super(id);
+  constructor(id: string, notes: string, townController: TownController) {
+    super(id, townController);
     this._notes = notes;
   }
 
   /**
    * The notes of the note-taking area. Changing the notes will emit a notesChange event
    */
-  set notes(newNotes: string) {
+  private _setNotes(newNotes: string | undefined) {
+    if (newNotes === undefined) {
+      newNotes = '';
+    }
     if (this._notes !== newNotes) {
       this.emit('notesChange', newNotes);
     }
@@ -74,18 +78,31 @@ export default class NoteTakingAreaController extends InteractableAreaController
     return this._notes;
   }
 
+  /**
+   * Sends a command to the server to update the notes content.
+   * @param newNotes The new notes content (HTML string).
+   */
+  public async updateNotes(newNotes: string) {
+    const command: NoteTakingAreaUpdateCommand = {
+      type: 'NoteTakingAreaUpdate',
+      notes: newNotes,
+    };
+    await this.townController.sendInteractableCommand(this.id, command);
+  }
+
   static fromNoteTakingAreaModel(
     model: NoteTakingArea,
+    townController: TownController,
     playerFinder: (PlayerIDs: string[]) => PlayerController[],
   ): NoteTakingAreaController {
-    const ret = new NoteTakingAreaController(model.id, model.notes);
+    const ret = new NoteTakingAreaController(model.id, model.notes || '', townController);
     ret.occupants = playerFinder(model.occupants);
     return ret;
   }
 }
 
 export function useNoteTakingAreaNotes(area: NoteTakingAreaController): string {
-  const [notes, setNotes] = useState(area.notes);
+  const [notes, setNotes] = useState(area.notes || '');
 
   useEffect(() => {
     area.addListener('notesChange', setNotes);

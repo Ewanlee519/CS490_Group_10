@@ -581,9 +581,9 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
     await this._townsService.createConversationArea(this.townID, this.sessionToken, newArea);
   }
 
-  // async createNoteTakingArea(newArea: { id: string; occupants: Array<string> }) {
-  //   await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
-  // }
+  async createNoteTakingArea(newArea: { id: string; occupants: Array<string> }) {
+    await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
+  }
 
   /**
    * Create a new viewing area, sending the request to the townService. Throws an error if the request
@@ -639,6 +639,7 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
             this._interactableControllers.push(
               NoteTakingAreaController.fromNoteTakingAreaModel(
                 eachInteractable,
+                this,
                 this._playersByIDs.bind(this),
               ),
             );

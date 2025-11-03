@@ -27,6 +27,10 @@ export default class NoteTakingArea extends Interactable {
     this._noteTakingArea?.emit('notesChange', newNotes);
   }
 
+  get controller(): NoteTakingAreaController | undefined {
+    return this._noteTakingArea;
+  }
+
   addedToScene() {
     super.addedToScene();
     this.setTintFill();
