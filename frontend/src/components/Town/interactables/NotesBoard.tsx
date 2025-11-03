@@ -39,12 +39,19 @@ function NotesBoard({
     extensions: [StarterKit],
     content: currentNotes,
     immediatelyRender: false,
-    onDestroy: () => {
-      // Save notes back to the backend when editor is destroyed
+    // onDestroy: () => {
+    //   // Save notes back to the backend when editor is destroyed
+    //   if (editor) {
+    //     noteTakingAreaController.updateNotes(editor.getHTML());
+    //   }
+    //   console.log('Editor destroyed, notes saved to backend!');
+    // },
+    onUpdate: () => {
+      // Save notes back to the backend on every update
       if (editor) {
         noteTakingAreaController.updateNotes(editor.getHTML());
       }
-      console.log('Editor destroyed, notes saved to backend!');
+      console.log('Editor updated, notes saved to backend!');
     },
   });
 
