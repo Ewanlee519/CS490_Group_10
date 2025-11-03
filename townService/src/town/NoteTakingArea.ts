@@ -8,14 +8,21 @@ import {
   InteractableCommandReturnType,
   TownEmitter,
 <<<<<<< HEAD
+<<<<<<< HEAD
   NoteTakingAreaUpdateCommand,
 =======
 >>>>>>> 581de96 (almost done implemented the controller)
+=======
+  NoteTakingAreaUpdateCommand,
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
 } from '../types/CoveyTownSocket';
 import InteractableArea from './InteractableArea';
 
 export default class NoteTakingArea extends InteractableArea {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
   public handleCommand<CommandType extends InteractableCommand>(
     command: CommandType,
   ): InteractableCommandReturnType<CommandType> {
@@ -25,6 +32,7 @@ export default class NoteTakingArea extends InteractableArea {
       this._emitAreaChanged();
       return undefined as InteractableCommandReturnType<CommandType>;
     }
+<<<<<<< HEAD
     throw new InvalidParametersError('Unknown command type');
   }
 
@@ -34,6 +42,8 @@ export default class NoteTakingArea extends InteractableArea {
   public handleCommand<
     CommandType extends InteractableCommand,
   >(): InteractableCommandReturnType<CommandType> {
+=======
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
     throw new InvalidParametersError('Unknown command type');
   }
 

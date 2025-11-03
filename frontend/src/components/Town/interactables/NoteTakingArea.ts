@@ -36,12 +36,18 @@ export default class NoteTakingArea extends Interactable {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
   get controller(): NoteTakingAreaController | undefined {
     return this._noteTakingArea;
   }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 28b737f (got the omit files to auto generate using prestart)
+=======
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
   addedToScene() {
     super.addedToScene();
     this.setTintFill();

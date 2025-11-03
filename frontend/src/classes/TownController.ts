@@ -582,6 +582,7 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   async createNoteTakingArea(newArea: { id: string; occupants: Array<string> }) {
     await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
   }
@@ -590,6 +591,11 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
   //   await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
   // }
 >>>>>>> 28b737f (got the omit files to auto generate using prestart)
+=======
+  async createNoteTakingArea(newArea: { id: string; occupants: Array<string> }) {
+    await this._townsService.createNoteTakingArea(this.townID, this.sessionToken, newArea);
+  }
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
 
   /**
    * Create a new viewing area, sending the request to the townService. Throws an error if the request
@@ -646,9 +652,13 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
               NoteTakingAreaController.fromNoteTakingAreaModel(
                 eachInteractable,
 <<<<<<< HEAD
+<<<<<<< HEAD
                 this,
 =======
 >>>>>>> 9cb2c58 (area controller done i think)
+=======
+                this,
+>>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
                 this._playersByIDs.bind(this),
               ),
             );
