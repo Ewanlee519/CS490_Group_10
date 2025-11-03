@@ -7,13 +7,20 @@ import {
   InteractableCommand,
   InteractableCommandReturnType,
   TownEmitter,
+  NoteTakingAreaUpdateCommand,
 } from '../types/CoveyTownSocket';
 import InteractableArea from './InteractableArea';
 
 export default class NoteTakingArea extends InteractableArea {
-  public handleCommand<
-    CommandType extends InteractableCommand,
-  >(): InteractableCommandReturnType<CommandType> {
+  public handleCommand<CommandType extends InteractableCommand>(
+    command: CommandType,
+  ): InteractableCommandReturnType<CommandType> {
+    if (command.type === 'NoteTakingAreaUpdate') {
+      const updateCommand = command as NoteTakingAreaUpdateCommand;
+      this.notes = updateCommand.notes;
+      this._emitAreaChanged();
+      return undefined as InteractableCommandReturnType<CommandType>;
+    }
     throw new InvalidParametersError('Unknown command type');
   }
 

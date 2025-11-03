@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { EventMap } from 'typed-emitter';
+import TownController from '../TownController';
 import {
   Interactable as InteractableAreaModel,
   InteractableID,
@@ -33,13 +34,16 @@ export default abstract class InteractableAreaController<
 > {
   private readonly _id: InteractableID;
 
+  protected readonly _townController: TownController;
+
   private _occupants: PlayerController[] = [];
 
   private _listeners: Map<keyof EmittedEventType, EmittedEventType[keyof EmittedEventType][]> =
     new Map();
 
-  constructor(id: InteractableID) {
+  constructor(id: InteractableID, townController: TownController) {
     this._id = id;
+    this._townController = townController;
   }
 
   get id() {
@@ -150,6 +154,10 @@ export default abstract class InteractableAreaController<
    * Return a string that identifies the type of this interactable area.
    */
   public abstract get type(): string;
+
+  public get townController(): TownController {
+    return this._townController;
+  }
 }
 /**
  * A react hook to retrieve the occupants of a ConversationAreaController, returning an array of PlayerController.
