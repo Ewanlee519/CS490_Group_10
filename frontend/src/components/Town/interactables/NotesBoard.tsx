@@ -134,7 +134,23 @@ export default function NotesBoardWrapper(): JSX.Element {
     const editor = (window as any).__notesBoardEditor;
     if (editor) {
       const content = editor.getHTML();
-      console.log('Export button clicked - Current notes content:', content);
+      const blob = new Blob([content], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'notes.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast({
+        title: 'Notes exported successfully!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } else {
+      console.log('Export button clicked - Nothing happened!');
       // Future: Could trigger file download here
     }
   }, []);
