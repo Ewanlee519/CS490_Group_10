@@ -37,7 +37,7 @@ function NotesBoard({
   const currentNotes = useNoteTakingAreaNotes(noteTakingAreaController);
 
   const editor = useEditor({
-    extensions: [StarterKit, TaskList, TaskItem],
+    extensions: [StarterKit, TaskItem, TaskList],
     content: currentNotes,
     immediatelyRender: false,
     onDestroy: () => {
@@ -78,20 +78,36 @@ function NotesBoard({
     };
   }, [editor]);
 
+
   return (
     <Box width='100%' height='100%'>
+    <style>
+      {`
+        .editable .ProseMirror {
+          min-height: 400px;
+          padding: 8px;
+        }
+
+        .editable .ProseMirror:after {
+          content: "";
+          display: block;
+          height: 150px;
+        }
+      `}
+    </style>
       <Box
         border='1px'
         borderColor='gray.300'
         borderRadius='md'
-        p={4}
+        p={0}
         minHeight='400px'
         mb={4}
         bg='white'>
-        <EditorContent editor={editor} />
+        <EditorContent editor={editor} className="editable"/>
       </Box>
     </Box>
   );
+
 }
 
 /**
