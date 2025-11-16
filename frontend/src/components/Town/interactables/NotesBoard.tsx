@@ -14,6 +14,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import { TextStyleKit } from '@tiptap/extension-text-style';
 import NotesToolbar from './NotesToolBar';
 import { useInteractable } from '../../../classes/TownController';
 import { NoteTakingArea } from '../../../types/CoveyTownSocket';
@@ -38,7 +39,7 @@ function NotesBoard({
   const currentNotes = useNoteTakingAreaNotes(noteTakingAreaController);
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [StarterKit, Underline, TextStyleKit],
     content: currentNotes,
     immediatelyRender: false,
     onDestroy: () => {
