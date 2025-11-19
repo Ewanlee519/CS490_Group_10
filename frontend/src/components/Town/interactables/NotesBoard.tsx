@@ -24,9 +24,13 @@ import NoteTakingAreaController, {
   useNoteTakingAreaNotes,
 } from '../../../classes/interactable/NoteTakingAreaController';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { debounce } from 'lodash';
 =======
 >>>>>>> 8192c98 (removed placeholder and made it so people can both see the notes that are edited. (Not real-time, but after a player closes it))
+=======
+import { debounce } from 'lodash';
+>>>>>>> 1102856 (Debounced the save so to fix the bug where the editor malfunctions currently at 150 miliseconds)
 
 /**
  * NotesBoard component - A text editor using Tiptap for note-taking
@@ -43,6 +47,9 @@ function NotesBoard({
   const currentNotes = useNoteTakingAreaNotes(noteTakingAreaController);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1102856 (Debounced the save so to fix the bug where the editor malfunctions currently at 150 miliseconds)
   const debouncedSaveNotes = useCallback(
     debounce((notes: string) => {
       noteTakingAreaController.updateNotes(notes);
@@ -87,6 +94,7 @@ function NotesBoard({
       }
       console.log('Editor destroyed, notes saved to backend!');
     },
+<<<<<<< HEAD
 >>>>>>> 112a41c (added the on destroy back)
     onUpdate: () => {
       // Save notes back to the backend on every update
@@ -95,6 +103,11 @@ function NotesBoard({
         noteTakingAreaController.updateNotes(editor.getHTML());
       }
       console.log('Editor updated, notes saved to backend!');
+=======
+    onUpdate: ({ editor: updatedEditor }) => {
+      const notes = updatedEditor.getHTML();
+      debouncedSaveNotes(notes);
+>>>>>>> 1102856 (Debounced the save so to fix the bug where the editor malfunctions currently at 150 miliseconds)
     },
     onUpdate: ({ editor: updatedEditor }) => {
       const notes = updatedEditor.getHTML();
