@@ -20,6 +20,7 @@ import NoteTakingAreaInteractable from './NoteTakingArea';
 import NoteTakingAreaController, {
   useNoteTakingAreaNotes,
 } from '../../../classes/interactable/NoteTakingAreaController';
+import { debounce } from 'lodash';
 
 /**
  * NotesBoard component - A text editor using Tiptap for note-taking
@@ -35,6 +36,13 @@ function NotesBoard({
 }): JSX.Element {
   const currentNotes = useNoteTakingAreaNotes(noteTakingAreaController);
 
+  const debouncedSaveNotes = useCallback(
+    debounce((notes: string) => {
+      noteTakingAreaController.updateNotes(notes);
+    }, 150),
+    [noteTakingAreaController],
+  );
+
   const editor = useEditor({
     extensions: [StarterKit],
     content: currentNotes,
@@ -46,12 +54,9 @@ function NotesBoard({
       }
       console.log('Editor destroyed, notes saved to backend!');
     },
-    onUpdate: () => {
-      // Save notes back to the backend on every update
-      if (editor) {
-        noteTakingAreaController.updateNotes(editor.getHTML());
-      }
-      console.log('Editor updated, notes saved to backend!');
+    onUpdate: ({ editor: updatedEditor }) => {
+      const notes = updatedEditor.getHTML();
+      debouncedSaveNotes(notes);
     },
   });
 
