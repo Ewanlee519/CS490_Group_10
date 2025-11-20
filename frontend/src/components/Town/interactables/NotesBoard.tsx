@@ -158,42 +158,46 @@ export default function NotesBoardWrapper(): JSX.Element {
       console.log('Export button clicked - Nothing happened!');
       // Future: Could trigger file download here
     }
-  }, []);
+  }, [toast]);
 
   const handleImport = useCallback(() => {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = '.txt, .html';
-    setTimeout(() => {}, 5000); // Wait for 5 seconds for user to select file
+
     fileInput.onchange = (e: Event) => {
       const target = e.target as HTMLInputElement;
-      if (target.files && target.files.length > 0) {
-        const file = target.files[0];
-        const reader = new FileReader();
-        reader.onload = loadEvent => {
-          const text = loadEvent.target?.result;
-          if (typeof text === 'string') {
-            const editor = (window as any).__notesBoardEditor;
-            if (editor) {
-              editor.commands.setContent(text);
-              toast({
-                title: 'Notes imported successfully!',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
+      try {
+        if (target.files && target.files.length > 0) {
+          const file = target.files[0];
+          const reader = new FileReader();
+          reader.onload = loadEvent => {
+            const text = loadEvent.target?.result;
+            if (typeof text === 'string') {
+              const editor = (window as any).__notesBoardEditor;
+              if (editor) {
+                editor.commands.setContent(text);
+                toast({
+                  title: 'Notes imported successfully!',
+                  status: 'success',
+                  duration: 3000,
+                  isClosable: true,
+                });
+              }
             }
-          }
-        };
-        reader.readAsText(file);
+          };
+          reader.readAsText(file);
+        }
+      } finally {
+        document.body.removeChild(fileInput);
       }
     };
+
     document.body.appendChild(fileInput);
     fileInput.click();
-    document.body.removeChild(fileInput);
     console.log('Import button clicked');
     // Future: Could open file picker here
-  }, []);
+  }, [toast]);
 
   if (!noteTakingAreaController) {
     return <></>;
